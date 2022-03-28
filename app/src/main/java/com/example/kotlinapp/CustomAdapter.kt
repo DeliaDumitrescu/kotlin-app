@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 internal class CustomAdapter(private var itemsList: List<String>) :
     RecyclerView.Adapter<CustomAdapter.MyViewHolder>() {
@@ -24,5 +25,16 @@ internal class CustomAdapter(private var itemsList: List<String>) :
     }
     override fun getItemCount(): Int {
         return itemsList.size
+    }
+
+
+    // method for filtering our recyclerview items.
+    fun filterList(filterllist: ArrayList<String>) {
+        // below line is to add our filtered
+        // list in our course array list.
+        itemsList = filterllist
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged()
     }
 }
