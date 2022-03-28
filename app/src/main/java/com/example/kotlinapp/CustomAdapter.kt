@@ -22,6 +22,7 @@ internal class CustomAdapter(private var itemsList: List<String>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = itemsList[position]
         holder.itemTextView.text = item
+        holder.itemTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.test2, 0);
     }
     override fun getItemCount(): Int {
         return itemsList.size
