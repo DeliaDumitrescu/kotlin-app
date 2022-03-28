@@ -6,17 +6,23 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.app.Activity
 import android.graphics.Bitmap
-//import androidx.appcompat.app.AppCompatActivity
-//import android.os.Bundle
+import android.net.Uri
 import android.provider.MediaStore
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import android.graphics.drawable.BitmapDrawable
+import android.os.Environment
+import androidx.core.content.FileProvider
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class TakePhoto : AppCompatActivity() {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var btnOpenCamera: Button
+    private lateinit var btnShare: Button
     private lateinit var ivPhoto: ImageView
 
     private fun handleCameraImage(intent: Intent?) {
@@ -49,6 +55,7 @@ class TakePhoto : AppCompatActivity() {
         })
 
         btnOpenCamera = findViewById(R.id.button)
+        btnShare = findViewById(R.id.button2)
         ivPhoto = findViewById(R.id.imageView)
 
         resultLauncher =
@@ -63,5 +70,73 @@ class TakePhoto : AppCompatActivity() {
             resultLauncher.launch(cameraIntent)
 
         }
+
+        btnShare.setOnClickListener{
+            /*
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "http://codepath.com")
+            startActivity(Intent.createChooser(shareIntent, "Share link using"))
+            */
+
+            val bmpUri = getLocalBitmapUri(ivPhoto);
+
+            if (bmpUri != null) {
+
+                // Construct a ShareIntent with link to image
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                shareIntent.setType("image/*");
+                startActivity(Intent.createChooser(shareIntent, "Share Image"));
+            }
+
+            /*
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "image/jpg"
+            val photoFile = File(filesDir, "foo.jpg")
+            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile))
+            startActivity(Intent.createChooser(shareIntent, "Share image using"))
+            */
+        }
+    }
+
+    fun getLocalBitmapUri(imageView: ImageView): Uri? {
+
+        val drawable = imageView.drawable
+        var bmp: Bitmap? = null
+        bmp = if (drawable is BitmapDrawable) {
+            (imageView.drawable as BitmapDrawable).bitmap
+        } else {
+            return null
+        }
+
+        var bmpUri: Uri? = null
+        try {
+
+            // Use methods on Context to access package-specific directories on external storage.
+
+            // This way, you don't need to request external read/write permission.
+
+            // See https://youtu.be/5xVh-7ywKpE?t=25m25s
+            val file = File(
+                getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                "share_image_" + System.currentTimeMillis() + ".png"
+            )
+            val out = FileOutputStream(file)
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out)
+            out.close()
+
+            // **Warning:** This will fail for API >= 24, use a FileProvider as shown below instead.
+            //bmpUri = Uri.fromFile(file)
+
+            // In case this doesn't work in testing
+            // https://guides.codepath.com/android/Sharing-Content-with-Intents
+            // https://guides.codepath.com/android/Managing-Runtime-Permissions-with-PermissionsDispatcher
+            bmpUri = FileProvider.getUriForFile(this, "com.codepath.fileprovider", file);
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return bmpUri
     }
 }
