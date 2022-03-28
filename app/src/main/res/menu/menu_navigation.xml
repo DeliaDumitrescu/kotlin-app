@@ -7,8 +7,13 @@
         android:icon="@drawable/ic_home_foreground"/>
 
     <item
+        android:id="@+id/inspiration"
+        android:title="Find inspiration"
+        android:icon="@drawable/ic_inspiration_foreground"/>
+
+    <item
         android:id="@+id/photo"
-        android:title="Take photo"
+        android:title="Share memory"
         android:icon="@drawable/ic_photo_foreground"/>
 
 </menu>

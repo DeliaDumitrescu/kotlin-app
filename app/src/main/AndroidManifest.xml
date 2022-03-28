@@ -6,14 +6,14 @@
         android:name="android.permission.CAMERA"
         android:required="true"
         android:requiredFeature="true" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:required="true"
-        android:requiredFeature="true"/>
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:requiredFeature="true" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:required="true"
-        android:requiredFeature="true"/>
+        android:requiredFeature="true" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Home"></activity>
+        <activity android:name=".Inspiration"/>
         <activity android:name=".TakePhoto" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -42,6 +42,5 @@
                 android:resource="@xml/fileprovider" />
         </provider>
     </application>
-
 
 </manifest>

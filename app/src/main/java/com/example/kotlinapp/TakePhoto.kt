@@ -49,6 +49,11 @@ class TakePhoto : AppCompatActivity() {
                     overridePendingTransition(0, 0)
                     return@OnNavigationItemSelectedListener true
                 }
+                R.id.inspiration -> {
+                    startActivity(Intent(applicationContext, Inspiration::class.java))
+                    overridePendingTransition(0, 0)
+                    return@OnNavigationItemSelectedListener true
+                }
                 R.id.photo -> return@OnNavigationItemSelectedListener true
             }
             false
