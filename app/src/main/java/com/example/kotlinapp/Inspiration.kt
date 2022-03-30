@@ -15,6 +15,7 @@ import java.util.*
 
 class Inspiration : AppCompatActivity() {
     private var itemsList = ArrayList<String>()
+    private var imagesList = HashMap<String, Int>()
     private lateinit var customAdapter: CustomAdapter
 
     private fun prepareItems() {
@@ -31,6 +32,21 @@ class Inspiration : AppCompatActivity() {
         itemsList.add("Food")
         itemsList.add("Dance")
         itemsList.add("Music")
+
+        imagesList.put("Fun", R.drawable.having_fun)
+        imagesList.put("Relaxing", R.drawable.relaxing)
+        imagesList.put("Chill", R.drawable.chill)
+        imagesList.put("Beach", R.drawable.beach)
+        imagesList.put("Party", R.drawable.party)
+        imagesList.put("Friends", R.drawable.friends)
+        imagesList.put("Dog", R.drawable.dog)
+        imagesList.put("Cat", R.drawable.cat)
+        imagesList.put("Cocktail", R.drawable.cocktail)
+        imagesList.put("Travel", R.drawable.travel)
+        imagesList.put("Food", R.drawable.food)
+        imagesList.put("Dance", R.drawable.dance)
+        imagesList.put("Music", R.drawable.music)
+
         customAdapter.notifyDataSetChanged()
     }
 
@@ -41,7 +57,7 @@ class Inspiration : AppCompatActivity() {
         // running a for loop to compare elements.
         for (item in itemsList) {
             // checking if the entered string matched with any item of our recycler view.
-            if (item == text) {
+            if (item.contains(text, ignoreCase = true)) {
                 // if the item is matched we are
                 // adding it to our filtered list.
                 filteredlist.add(item)
@@ -69,7 +85,7 @@ class Inspiration : AppCompatActivity() {
         bottomNavigationView.selectedItemId = R.id.inspiration
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        customAdapter = CustomAdapter(itemsList)
+        customAdapter = CustomAdapter(itemsList, imagesList)
         val layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = customAdapter
