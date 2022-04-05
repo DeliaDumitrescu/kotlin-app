@@ -8,8 +8,8 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
-internal class CustomAdapter(private var itemsList: List<String>, private var imagesList: HashMap<String, Int>) :
-    RecyclerView.Adapter<CustomAdapter.MyViewHolder>() {
+internal class DataAdapter(private var data: List<String>, private var images: HashMap<String, Int>) :
+    RecyclerView.Adapter<DataAdapter.MyViewHolder>() {
     internal inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var itemTextView: TextView = view.findViewById(R.id.itemTextView)
     }
@@ -20,22 +20,16 @@ internal class CustomAdapter(private var itemsList: List<String>, private var im
         return MyViewHolder(itemView)
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val item = itemsList[position]
+        val item = data[position]
         holder.itemTextView.text = item
-        holder.itemTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, imagesList.get(item) ?: 0, 0);
+        holder.itemTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, images.get(item) ?: 0, 0);
     }
     override fun getItemCount(): Int {
-        return itemsList.size
+        return data.size
     }
 
-
-    // method for filtering our recyclerview items.
     fun filterList(filterllist: ArrayList<String>) {
-        // below line is to add our filtered
-        // list in our course array list.
-        itemsList = filterllist
-        // below line is to notify our adapter
-        // as change in recycler view data.
+        data = filterllist
         notifyDataSetChanged()
     }
 }
